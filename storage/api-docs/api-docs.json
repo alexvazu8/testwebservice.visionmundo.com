@@ -1,0 +1,2076 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "EXTRANET",
+        "description": "Reservas API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://testwebservice.visionmundo.com"
+        }
+    ],
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login de usuarios",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
+                "requestBody": {
+                    "description": "Datos de inicio de sesión",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "contraseña_secreta"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "access_token": {
+                                                        "type": "string",
+                                                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vd2Vic2VydmljZS52aXNpb25tdW5kby5jb20vYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2OTM3NzEwODksImV4cCI6MTY5Mzc3NDY4OSwibmJmIjoxNjkzNzcxMDg5LCJqdGkiOiJsNnJTeXFjVUdCWEd6dFdaIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.n3hUXHvQcwsp1sFLEDqphBxHP7etHq-ngVUrvlWiy9U"
+                                                    },
+                                                    "token_type": {
+                                                        "type": "string",
+                                                        "example": "Bearer"
+                                                    },
+                                                    "expires_in": {
+                                                        "type": "number",
+                                                        "example": "3600"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                }
+            }
+        },
+        "/api/auth/me": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Obtener los datos del usuario autenticado",
+                "operationId": "b9abb1a7a74670a19c215c2c133f14d8",
+                "responses": {
+                    "200": {
+                        "description": "Datos del usuario autenticado",
+                        "headers": {
+                            "Authorization": {
+                                "description": "Token JWT de autenticación",
+                                "schema": {
+                                    "type": "string",
+                                    "format": "Bearer {token}"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Nombre del Usuario"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "usuario@example.com"
+                                        },
+                                        "email_verified_at": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "null"
+                                        },
+                                        "created_at": {
+                                            "type": "DATETIME",
+                                            "format": "2023-07-07",
+                                            "example": "2023-07-07T12:23:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "DATETIME",
+                                            "format": "YYYY-MM-DD",
+                                            "example": "2023-07-07T12:23:11.000000Z"
+                                        },
+                                        "celular": {
+                                            "type": "string",
+                                            "example": "+591-66655551"
+                                        },
+                                        "tipo_usuario": {
+                                            "type": "string",
+                                            "example": "S"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Cerrar sesión del usuario autenticado",
+                "description": "Cerrar sesión del usuario autenticado",
+                "operationId": "logoutUser",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Token JWT de autenticación",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "Bearer {token}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cierre de sesión exitoso"
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/addCarrito": {
+            "post": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Añadir servicio al Carrito.",
+                "operationId": "addCarrito",
+                "requestBody": {
+                    "description": "Datos de entrada en formato JSON para diferentes tipos de servicios",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "title": "Habitaciones de Hotel",
+                                        "required": [
+                                            "Fecha_in",
+                                            "Fecha_out",
+                                            "Tipo_servicio",
+                                            "Numero_Habitaciones",
+                                            "habitaciones"
+                                        ],
+                                        "properties": {
+                                            "Fecha_in": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2023-12-09"
+                                            },
+                                            "Fecha_out": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2023-12-10"
+                                            },
+                                            "Tipo_servicio": {
+                                                "type": "string",
+                                                "example": "H"
+                                            },
+                                            "Numero_Habitaciones": {
+                                                "type": "integer",
+                                                "example": 3
+                                            },
+                                            "habitaciones": {
+                                                "properties": {
+                                                    "0": {
+                                                        "properties": {
+                                                            "Id_tipo_habitacion_hotels": {
+                                                                "type": "integer",
+                                                                "example": 8
+                                                            },
+                                                            "Id_regimen": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "Nombre_Habitacion": {
+                                                                "type": "string",
+                                                                "example": "JUNIOR SUITE DOBLE + MENOR"
+                                                            },
+                                                            "Id_Hotel": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "Cantidad_habitaciones": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "Cantidad_Adultos": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "Cantidad_Menores": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "Edad_menores_gratis": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "Noches": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "1": {
+                                                        "properties": {
+                                                            "Id_tipo_habitacion_hotels": {
+                                                                "type": "integer",
+                                                                "example": 9
+                                                            },
+                                                            "Id_regimen": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "Nombre_Habitacion": {
+                                                                "type": "string",
+                                                                "example": "JUNIOR SUITE TRIPLE"
+                                                            },
+                                                            "Id_Hotel": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "Cantidad_habitaciones": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "Cantidad_Adultos": {
+                                                                "type": "integer",
+                                                                "example": 3
+                                                            },
+                                                            "Cantidad_Menores": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "Noches": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    {
+                                        "title": "Traslado",
+                                        "required": [
+                                            "Fecha_disponible",
+                                            "Tipo_servicio",
+                                            "Tipo_servicio_transfer",
+                                            "Id_servicio_traslado",
+                                            "hora_servicio",
+                                            "Lugar_Origen",
+                                            "Lugar_Destino",
+                                            "Traslados_contrato_id",
+                                            "Numero_adultos"
+                                        ],
+                                        "properties": {
+                                            "Fecha_disponible": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-04-30"
+                                            },
+                                            "Tipo_servicio": {
+                                                "type": "string",
+                                                "example": "T"
+                                            },
+                                            "Tipo_servicio_transfer": {
+                                                "type": "string",
+                                                "example": "IN"
+                                            },
+                                            "Id_servicio_traslado": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "hora_servicio": {
+                                                "type": "string",
+                                                "example": "08:00"
+                                            },
+                                            "Lugar_Origen": {
+                                                "type": "string",
+                                                "example": "Aeropuerto Viru Viru (VVI)"
+                                            },
+                                            "Lugar_Destino": {
+                                                "type": "string",
+                                                "example": "Hotel Camino Real"
+                                            },
+                                            "Traslados_contrato_id": {
+                                                "type": "integer",
+                                                "example": 2549
+                                            },
+                                            "Numero_adultos": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "Numero_menores": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "Edad_menores": {
+                                                "properties": {
+                                                    "1": {
+                                                        "type": "integer",
+                                                        "example": 8
+                                                    },
+                                                    "2": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    {
+                                        "title": "Tour",
+                                        "required": [
+                                            "Fecha_disponible",
+                                            "Tipo_servicio",
+                                            "Id_contrato_tours",
+                                            "Numero_adultos"
+                                        ],
+                                        "properties": {
+                                            "Fecha_disponible": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2025-05-29"
+                                            },
+                                            "Tipo_servicio": {
+                                                "type": "string",
+                                                "example": "TOU"
+                                            },
+                                            "Id_contrato_tours": {
+                                                "type": "integer",
+                                                "example": 2943
+                                            },
+                                            "Numero_adultos": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "Numero_menores": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "Edad_menores": {
+                                                "properties": {
+                                                    "1": {
+                                                        "type": "integer",
+                                                        "example": 8
+                                                    },
+                                                    "2": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Servicio añadido correctamente al carrito"
+                    },
+                    "401": {
+                        "description": "No autorizado o error de disponibilidad"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/showCarrito": {
+            "get": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Obtiene los elementos del carrito",
+                "description": "Obtiene los elementos del carrito de compras del usuario autenticado.",
+                "operationId": "showCarrito",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Token JWT de autenticación",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "Bearer {token}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Elementos del carrito obtenidos correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Precio_total_carrito": {
+                                            "description": "Precio total del carrito",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error Carrito Vacío."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/vaciarCarrito": {
+            "delete": {
+                "tags": [
+                    "Carritos"
+                ],
+                "summary": "Vaciar servicio/s del Carrito.",
+                "operationId": "vaciarCarrito",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Token JWT de autenticación",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "Bearer {token}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos de entrada en formato JSON",
+                    "required": true,
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Carrito Vacío"
+                    },
+                    "401": {
+                        "description": "Error al vaciar el Carrito o está Vacío"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/detalleReservaPenalidad/{id_detalle_reserva}": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Calcular penalidad por cancelación de un servicio",
+                "description": "Calcula la penalidad según tipo de servicio.",
+                "operationId": "calcularPenalidad",
+                "parameters": [
+                    {
+                        "name": "id_detalle_reserva",
+                        "in": "path",
+                        "description": "ID del detalle de reserva",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa con diferentes estructuras posibles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "properties": {
+                                                "mensaje": {
+                                                    "type": "string",
+                                                    "example": "Penalidad aplicada según política."
+                                                },
+                                                "penalidad": {
+                                                    "type": "string",
+                                                    "example": "50%"
+                                                },
+                                                "precio_penalidad": {
+                                                    "type": "string",
+                                                    "example": "120.00"
+                                                },
+                                                "tipo_servicio": {
+                                                    "type": "string",
+                                                    "example": "H"
+                                                },
+                                                "datos_extra": {
+                                                    "properties": {
+                                                        "penalidad_aplicable": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "porcentaje": {
+                                                                    "type": "string",
+                                                                    "example": "100%"
+                                                                },
+                                                                "rango_dias": {
+                                                                    "type": "string",
+                                                                    "example": "2 a 0 días antes"
+                                                                }
+                                                            },
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        },
+                                                        "fechas": {
+                                                            "properties": {
+                                                                "fecha_in": {
+                                                                    "type": "string",
+                                                                    "format": "date",
+                                                                    "example": "2025-07-18"
+                                                                },
+                                                                "fecha_actual": {
+                                                                    "type": "string",
+                                                                    "format": "date",
+                                                                    "example": "2025-07-16"
+                                                                },
+                                                                "dias_restantes_para_ingresar": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "calculos": {
+                                                            "properties": {
+                                                                "noches_afectadas": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "mensaje": {
+                                                    "type": "string",
+                                                    "example": "Ya paso la fecha de Ingreso, no se puede cancelar"
+                                                },
+                                                "penalidad": {
+                                                    "type": "string",
+                                                    "example": "100%"
+                                                },
+                                                "precio_penalidad": {
+                                                    "type": "string",
+                                                    "example": "300.00"
+                                                },
+                                                "tipo_servicio": {
+                                                    "type": "string",
+                                                    "example": "T"
+                                                },
+                                                "datos_extra": {
+                                                    "type": "string",
+                                                    "example": "Los traslados no permiten cancelaciones."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Tipo de servicio no válido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Tipo de servicio no válido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/cancelarDetalleReserva/{id_detalle_reserva}": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Cancelar un detalle de reserva",
+                "description": "Cancela un detalle de reserva y calcula la penalidad correspondiente. Aplica según el tipo de servicio: Hotel, Transporte, Tour.",
+                "operationId": "cancelarDetalleReserva",
+                "parameters": [
+                    {
+                        "name": "id_detalle_reserva",
+                        "in": "path",
+                        "description": "ID del detalle de reserva a cancelar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cancelación procesada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Cancelación permitida, sin penalidad."
+                                        },
+                                        "penalidad": {
+                                            "type": "string",
+                                            "example": "0%"
+                                        },
+                                        "precio_penalidad": {
+                                            "type": "string",
+                                            "example": "0.00"
+                                        },
+                                        "tipo_servicio": {
+                                            "type": "string",
+                                            "example": "H"
+                                        },
+                                        "datos_extra": {
+                                            "oneOf": [
+                                                {
+                                                    "type": "string",
+                                                    "example": "Los traslados no permiten cancelaciones."
+                                                },
+                                                {
+                                                    "properties": {
+                                                        "penalidad_aplicable": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "porcentaje": {
+                                                                    "type": "string",
+                                                                    "example": "100%"
+                                                                },
+                                                                "rango_dias": {
+                                                                    "type": "string",
+                                                                    "example": "2 a 0 días antes"
+                                                                }
+                                                            },
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        },
+                                                        "fechas": {
+                                                            "properties": {
+                                                                "fecha_in": {
+                                                                    "type": "string",
+                                                                    "format": "date",
+                                                                    "example": "2025-07-18"
+                                                                },
+                                                                "fecha_actual": {
+                                                                    "type": "string",
+                                                                    "format": "date",
+                                                                    "example": "2025-07-16"
+                                                                },
+                                                                "dias_restantes_para_ingresar": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "calculos": {
+                                                            "properties": {
+                                                                "noches_afectadas": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error al cancelar reserva",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "properties": {
+                                                "error": {
+                                                    "type": "string",
+                                                    "example": "Tipo de servicio no válido"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "mensaje": {
+                                                    "type": "string",
+                                                    "example": "Ya pasó la fecha de Ingreso, no se puede cancelar"
+                                                },
+                                                "penalidad": {
+                                                    "type": "string",
+                                                    "example": "100%"
+                                                },
+                                                "precio_penalidad": {
+                                                    "type": "string",
+                                                    "example": "27.75"
+                                                },
+                                                "tipo_servicio": {
+                                                    "type": "string",
+                                                    "example": "H"
+                                                },
+                                                "datos_extra": {
+                                                    "type": "string",
+                                                    "example": "Reserva vigente, pasada o dentro de la fecha de uso"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "error": {
+                                                    "type": "string",
+                                                    "example": "Ya esta cancelada la reserva"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/getHotelInfo/{id}": {
+            "get": {
+                "tags": [
+                    "Hoteles"
+                ],
+                "summary": "Obtiene los detalles de un hotel por su ID",
+                "description": "Devuelve los detalles de un hotel junto con sus relaciones como estrellas, fotos, facilidades, usuarios, tipo de habitación, país, ciudad y zona.",
+                "operationId": "514ab80ce9f0d2868d47ea8721b04c32",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del hotel",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del hotel encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Id_Hotel": {
+                                            "description": "ID del hotel",
+                                            "type": "integer"
+                                        },
+                                        "Nombre_Hotel": {
+                                            "description": "Nombre del hotel",
+                                            "type": "string"
+                                        },
+                                        "Numero_identificacion_tributaria": {
+                                            "description": "Número de identificación tributaria del hotel",
+                                            "type": "string"
+                                        },
+                                        "Direccion_Hotel": {
+                                            "description": "Dirección del hotel",
+                                            "type": "string"
+                                        },
+                                        "Telefono_reservas_hotel": {
+                                            "description": "Teléfono de reservas del hotel",
+                                            "type": "string"
+                                        },
+                                        "Cel_reservas_hotel": {
+                                            "description": "Celular de reservas del hotel",
+                                            "type": "string"
+                                        },
+                                        "email_reservas_hotel": {
+                                            "description": "Correo electrónico para reservas del hotel",
+                                            "type": "string"
+                                        },
+                                        "email_comercial_hotel": {
+                                            "description": "Correo electrónico comercial del hotel",
+                                            "type": "string"
+                                        },
+                                        "Pais_Id_Pais": {
+                                            "description": "ID del país del hotel",
+                                            "type": "integer"
+                                        },
+                                        "Zona_Id_Zona": {
+                                            "description": "ID de la zona del hotel",
+                                            "type": "integer"
+                                        },
+                                        "ciudad_Id_ciudad": {
+                                            "description": "ID de la ciudad del hotel",
+                                            "type": "integer"
+                                        },
+                                        "Descripcion_Hotel": {
+                                            "description": "Descripción del hotel",
+                                            "type": "string"
+                                        },
+                                        "Foto_Principal_Hotel": {
+                                            "description": "URL de la foto principal del hotel",
+                                            "type": "string"
+                                        },
+                                        "fotosHotels": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "Foto_Hotel": {
+                                                        "description": "URL de la foto del hotel",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "estrellas": {
+                                            "description": "Estrellas del hotel",
+                                            "type": "object"
+                                        },
+                                        "hotelFacilidadesYServicios": {
+                                            "description": "Facilidades y servicios del hotel",
+                                            "type": "object"
+                                        },
+                                        "hotelUsers": {
+                                            "description": "Usuarios asociados al hotel",
+                                            "type": "object"
+                                        },
+                                        "tipoHabitacionHotels": {
+                                            "description": "Tipos de habitación del hotel",
+                                            "type": "object"
+                                        },
+                                        "pais": {
+                                            "description": "País del hotel",
+                                            "type": "object"
+                                        },
+                                        "ciudad": {
+                                            "description": "Ciudad del hotel",
+                                            "type": "object"
+                                        },
+                                        "zona": {
+                                            "description": "Zona del hotel",
+                                            "type": "object"
+                                        },
+                                        "Latitud": {
+                                            "description": "Latitud del hotel",
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "Longitud": {
+                                            "description": "Longitud del hotel",
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hotel no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hotel no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/getDispoHotels": {
+            "post": {
+                "tags": [
+                    "Hoteles"
+                ],
+                "summary": "Obtener disponibilidad de hoteles",
+                "description": "Obtener disponibilidad de hoteles",
+                "operationId": "getDispoHotels",
+                "requestBody": {
+                    "description": "Datos para verificar la disponibilidad de hoteles",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pagina",
+                                    "Fecha_desde",
+                                    "Fecha_hasta",
+                                    "Id_Ciudad_Hotel",
+                                    "Numero_Habitaciones",
+                                    "habitaciones"
+                                ],
+                                "properties": {
+                                    "pagina": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "Fecha_desde": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-02-23"
+                                    },
+                                    "Fecha_hasta": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-02-24"
+                                    },
+                                    "Id_Ciudad_Hotel": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "Numero_Habitaciones": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "habitaciones": {
+                                        "description": "Detalles de las habitaciones",
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "description": "Detalles de una habitación",
+                                            "properties": {
+                                                "Cantidad_adultos": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "Cantidad_menores": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "Edad_menores": {
+                                                    "description": "Edades de los menores (solo si Cantidad_menores > 0)",
+                                                    "type": "object",
+                                                    "example": {
+                                                        "1": 9
+                                                    },
+                                                    "additionalProperties": {
+                                                        "type": "integer",
+                                                        "example": 9
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Disponibilidad de hoteles encontrada"
+                    },
+                    "404": {
+                        "description": "No autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/confirmReserva": {
+            "post": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Confirmar reserva.",
+                "operationId": "confirmReserva",
+                "requestBody": {
+                    "description": "Datos de entrada en formato JSON",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Nombre_titular_reserva",
+                                    "Apellido_titular_reserva",
+                                    "Telefono_titular_reserva"
+                                ],
+                                "properties": {
+                                    "Nombre_titular_reserva": {
+                                        "type": "string",
+                                        "example": "Alejandro"
+                                    },
+                                    "Apellido_titular_reserva": {
+                                        "type": "string",
+                                        "example": "Rodriguez"
+                                    },
+                                    "Telefono_titular_reserva": {
+                                        "type": "string",
+                                        "example": "+591-69166655"
+                                    },
+                                    "Email_contacto_reserva": {
+                                        "type": "string",
+                                        "example": "alexvazu@gmail.com"
+                                    },
+                                    "Comentarios": {
+                                        "type": "string",
+                                        "example": "Ingreso, media noche"
+                                    },
+                                    "Clientes_por_servicio": {
+                                        "description": "Opcional. Mapa de servicios y sus clientes. Si se incluye, cada cliente debe tener los campos obligatorios.",
+                                        "type": "object",
+                                        "example": {
+                                            "18": {
+                                                "1": {
+                                                    "Tipo": "A",
+                                                    "Documento_Id_Cliente": "123456",
+                                                    "COD_IATA_PAIS": "BO",
+                                                    "Nombre_Cliente": "Juan",
+                                                    "Apellido_Cliente": "Perez",
+                                                    "Telefono_emergencias_Cliente": "+591-666111",
+                                                    "Mail_emergencias_cliente": "emergencia@mail.com"
+                                                }
+                                            },
+                                            "19": {
+                                                "1": {
+                                                    "Tipo": "A",
+                                                    "Documento_Id_Cliente": "999111",
+                                                    "COD_IATA_PAIS": "BO",
+                                                    "Nombre_Cliente": "Lucía",
+                                                    "Apellido_Cliente": "Armaniz",
+                                                    "edad": 30
+                                                },
+                                                "2": {
+                                                    "Tipo": "M",
+                                                    "Documento_Id_Cliente": "999111",
+                                                    "COD_IATA_PAIS": "BO",
+                                                    "Nombre_Cliente": "Lucía",
+                                                    "Apellido_Cliente": "Gómez",
+                                                    "edad": 10
+                                                }
+                                            }
+                                        },
+                                        "additionalProperties": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "required": [
+                                                    "Tipo",
+                                                    "Documento_Id_Cliente",
+                                                    "COD_IATA_PAIS",
+                                                    "Nombre_Cliente",
+                                                    "Apellido_Cliente"
+                                                ],
+                                                "properties": {
+                                                    "Tipo": {
+                                                        "description": "A = Adulto, M = Menor",
+                                                        "type": "string",
+                                                        "maxLength": 1
+                                                    },
+                                                    "Documento_Id_Cliente": {
+                                                        "type": "string",
+                                                        "maxLength": 20
+                                                    },
+                                                    "COD_IATA_PAIS": {
+                                                        "type": "string",
+                                                        "maxLength": 3
+                                                    },
+                                                    "Nombre_Cliente": {
+                                                        "type": "string"
+                                                    },
+                                                    "Apellido_Cliente": {
+                                                        "type": "string"
+                                                    },
+                                                    "Telefono_emergencias_Cliente": {
+                                                        "description": "Opcional",
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "Mail_emergencias_cliente": {
+                                                        "description": "Opcional",
+                                                        "type": "mail",
+                                                        "nullable": true
+                                                    },
+                                                    "edad": {
+                                                        "description": "Solo requerido si Tipo = M",
+                                                        "type": "integer",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reserva confirmada exitosamente"
+                    },
+                    "401": {
+                        "description": "Error en la autenticación"
+                    },
+                    "400": {
+                        "description": "Solicitud inválida o parámetros faltantes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/getReservaByLocalizador": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Obtiene una lista de reservas por Localizador",
+                "description": "Busca reservas por Localizador",
+                "operationId": "getListaReservasByLocalizador",
+                "parameters": [
+                    {
+                        "name": "Localizador",
+                        "in": "query",
+                        "description": "Localizador a buscar",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa"
+                    },
+                    "401": {
+                        "description": "Error en la autenticación"
+                    },
+                    "400": {
+                        "description": "Solicitud inválida o parámetros faltantes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/getListaReservasByDate": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Obtiene una lista de reservas por fecha",
+                "description": "Busca reservas por fecha",
+                "operationId": "getListaReservasByDate",
+                "parameters": [
+                    {
+                        "name": "fecha_de",
+                        "in": "query",
+                        "description": "fecha de creacion",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "fecha_hasta",
+                        "in": "query",
+                        "description": "fecha rango hasta de creacion",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reserva Encontrada"
+                    },
+                    "401": {
+                        "description": "Error en la autenticación"
+                    },
+                    "400": {
+                        "description": "Solicitud inválida o parámetros faltantes"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/getListaReservasByName": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Obtiene reservas por nombre y/o apellido",
+                "description": "Busca reservas por nombre, apellido o ambos campos del cliente",
+                "operationId": "getListaReservasByName",
+                "parameters": [
+                    {
+                        "name": "Nombre_Cliente",
+                        "in": "query",
+                        "description": "Nombre del cliente a buscar",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Apellido_Cliente",
+                        "in": "query",
+                        "description": "Apellido del cliente a buscar",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reservas encontradas"
+                    },
+                    "401": {
+                        "description": "Error en la autenticación"
+                    },
+                    "400": {
+                        "description": "Debe proporcionar al menos nombre o apellido"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/voucher": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Obtener detalles de un voucher de reserva",
+                "description": "Retorna los detalles de un voucher de reserva por ID de detalle de reserva. Si los campos `detalleTour`, `detalleTraslado` o `detalleHotel` están vacíos, serán ocultados de la respuesta.",
+                "operationId": "0784b7f2c21f94d66a370ce7de1865a5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID del servicio, detalle de la reserva",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 230
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle del voucher obtenido exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 230
+                                        },
+                                        "Precio_Servicio": {
+                                            "type": "number",
+                                            "example": 33.2999999999999971578290569595992565155029296875
+                                        },
+                                        "Reserva_Id_reserva": {
+                                            "type": "integer",
+                                            "example": 193
+                                        },
+                                        "Usuario_id": {
+                                            "type": "integer",
+                                            "example": 35
+                                        },
+                                        "Tipo_servicio": {
+                                            "type": "string",
+                                            "example": "H"
+                                        },
+                                        "Email_encargado_reserva": {
+                                            "type": "string",
+                                            "example": "reservas@caminoreal.com"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-05-07T13:57:13.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-05-07T13:57:13.000000Z"
+                                        },
+                                        "cliente_detalle_reservas": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "reserva": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 193
+                                                },
+                                                "Localizador": {
+                                                    "type": "string",
+                                                    "example": "XKHXR"
+                                                },
+                                                "Importe_Reserva": {
+                                                    "type": "number",
+                                                    "example": 33.2999999999999971578290569595992565155029296875
+                                                },
+                                                "Nombre_Cliente": {
+                                                    "type": "string",
+                                                    "example": "Katherina"
+                                                },
+                                                "Apellido_Cliente": {
+                                                    "type": "string",
+                                                    "example": "Zenteno"
+                                                },
+                                                "Telefono_Cliente": {
+                                                    "type": "string",
+                                                    "example": "6451215151"
+                                                },
+                                                "Usuario_id": {
+                                                    "type": "integer",
+                                                    "example": 35
+                                                },
+                                                "Email_contacto_reserva": {
+                                                    "type": "string",
+                                                    "example": "alexvazu@gmail.com"
+                                                },
+                                                "Comentarios": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "detalle_hotel": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 46
+                                                },
+                                                "Cantidad_Adultos": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "Cantidad_Menores": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "Cantidad_Noches": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "Fecha_In": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-05-22 00:00:00"
+                                                },
+                                                "Fecha_Out": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-05-23 00:00:00"
+                                                },
+                                                "Nombre_Habitacion": {
+                                                    "type": "string",
+                                                    "example": "Simple Junior"
+                                                },
+                                                "Precio_Total": {
+                                                    "type": "number",
+                                                    "example": 33.2999999999999971578290569595992565155029296875
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "detalle_tour": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 12
+                                                },
+                                                "Nombre_Tour": {
+                                                    "type": "string",
+                                                    "example": "Tour por la ciudad"
+                                                },
+                                                "Fecha_In": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-06-15T09:00:00"
+                                                },
+                                                "Fecha_Out": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-06-15T17:00:00"
+                                                },
+                                                "Cantidad_Adultos": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "Cantidad_Menores": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "Precio_Adulto": {
+                                                    "type": "number",
+                                                    "example": 20
+                                                },
+                                                "Precio_Menor": {
+                                                    "type": "number",
+                                                    "example": 10
+                                                },
+                                                "Precio_Total": {
+                                                    "type": "number",
+                                                    "example": 50
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "detalle_traslado": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 38
+                                                },
+                                                "Cantidad_Adultos": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "Cantidad_Menores": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "detalle_reserva_id": {
+                                                    "type": "integer",
+                                                    "example": 227
+                                                },
+                                                "Empresa_traslados_tipo_movilidades_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "servicio_traslados_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "Lugar_Origen": {
+                                                    "type": "string",
+                                                    "example": "Trompillo"
+                                                },
+                                                "Lugar_Destino": {
+                                                    "type": "string",
+                                                    "example": "Camino Real"
+                                                },
+                                                "fecha_servicio": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2025-04-30"
+                                                },
+                                                "hora_servicio": {
+                                                    "type": "string",
+                                                    "format": "time",
+                                                    "example": "10:10:00"
+                                                },
+                                                "Precio_Adulto": {
+                                                    "type": "number",
+                                                    "example": 22.199999999999999289457264239899814128875732421875
+                                                },
+                                                "Precio_Menor": {
+                                                    "type": "number",
+                                                    "example": 11.0999999999999996447286321199499070644378662109375
+                                                },
+                                                "Precio_Total": {
+                                                    "type": "number",
+                                                    "example": 44.39999999999999857891452847979962825775146484375
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error de autenticación o ID inválido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Sin el token o No corresponde a ningun Voucher."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/getTourInfo/{id}": {
+            "get": {
+                "tags": [
+                    "Tours"
+                ],
+                "summary": "Obtener un tour por su ID",
+                "description": "Devuelve la información de un tour específico junto con sus relaciones (pais, ciudad, zona, fotos)",
+                "operationId": "getTourById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del tour",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Información del tour",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Tour a las Cataratas"
+                                        },
+                                        "Foto_tours": {
+                                            "type": "string",
+                                            "example": "https://example.com/images/tour1.jpg"
+                                        },
+                                        "pais": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Argentina"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "ciudad": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Buenos Aires"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "zona": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Centro"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "fotosTours": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "url_foto_tour": {
+                                                        "type": "string",
+                                                        "example": "https://example.com/images/tour1_foto1.jpg"
+                                                    },
+                                                    "nombre_foto_tour": {
+                                                        "type": "string",
+                                                        "example": "Principal"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tour no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tour no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/getDispoTours": {
+            "post": {
+                "tags": [
+                    "Tours"
+                ],
+                "summary": "Obtener disponibilidad de tours",
+                "description": "Obtiene la disponibilidad de tours según los parámetros especificados.",
+                "operationId": "getDispoTours",
+                "parameters": [
+                    {
+                        "name": "Tipo_servicio",
+                        "in": "query",
+                        "description": "Tipo de servicio (TOU, etc.)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Fecha_disponible",
+                        "in": "query",
+                        "description": "Fecha disponible en formato YYYY-MM-DD",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "Ciudad_Id_Ciudad",
+                        "in": "query",
+                        "description": "ID de la ciudad",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Cantidad_adultos",
+                        "in": "query",
+                        "description": "Cantidad de adultos",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Cantidad_menores",
+                        "in": "query",
+                        "description": "Cantidad de menores (opcional). Si es mayor que 0, debe incluir las edades en el parámetro Edad_menores.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "nullable": true
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Edades de los menores (opcional). Solo se requiere si `Cantidad_menores` es mayor que 0.",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "Edad_menores": {
+                                        "properties": {
+                                            "1": {
+                                                "description": "Edad del primer menor",
+                                                "type": "integer"
+                                            },
+                                            "2": {
+                                                "description": "Edad del segundo menor",
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "nullable": true
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Disponibilidad de tours obtenida correctamente"
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No autorizado. Token inválido o no proporcionado."
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No hay respuesta a tu solicitud"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/getDispoTraslados": {
+            "post": {
+                "tags": [
+                    "Traslados"
+                ],
+                "summary": "Obtener disponibilidad de traslados",
+                "description": "Obtiene la disponibilidad de traslados según los parámetros proporcionados.",
+                "operationId": "cc3c33a914d4db26f11df00b2423f0d8",
+                "requestBody": {
+                    "description": "Datos de la solicitud",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Tipo_servicio_transfer",
+                                    "Fecha_disponible",
+                                    "Ciudad_Id_Ciudad",
+                                    "Zona_Origen_id",
+                                    "Zona_Destino_id",
+                                    "hora_servicio",
+                                    "Cantidad_adultos",
+                                    "Cantidad_menores",
+                                    "Edad_menores"
+                                ],
+                                "properties": {
+                                    "Tipo_servicio_transfer": {
+                                        "description": "Tipo de servicio de traslado",
+                                        "type": "string",
+                                        "example": "IN"
+                                    },
+                                    "Fecha_disponible": {
+                                        "description": "Fecha disponible para el traslado",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-29"
+                                    },
+                                    "Ciudad_Id_Ciudad": {
+                                        "description": "ID de la ciudad para la que se solicita el traslado",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "Zona_Origen_id": {
+                                        "description": "ID de la zona de origen",
+                                        "type": "string",
+                                        "example": "7"
+                                    },
+                                    "Zona_Destino_id": {
+                                        "description": "ID de la zona de destino",
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "hora_servicio": {
+                                        "description": "Hora del servicio en formato 'H:i'",
+                                        "type": "string",
+                                        "example": "08:00"
+                                    },
+                                    "Cantidad_adultos": {
+                                        "description": "Cantidad de adultos",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "Cantidad_menores": {
+                                        "description": "Cantidad de menores",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "Edad_menores": {
+                                        "description": "Edades de los menores",
+                                        "properties": {
+                                            "1": {
+                                                "description": "Edad del primer menor",
+                                                "type": "integer",
+                                                "example": 8
+                                            },
+                                            "2": {
+                                                "description": "Edad del segundo menor",
+                                                "type": "integer",
+                                                "example": 3
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa"
+                    },
+                    "404": {
+                        "description": "No se encontraron traslados disponibles con los parámetros proporcionados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No hay respuesta a tu solicitud, intenta cambiar los datos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación de datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Los datos proporcionados no son válidos"
+                                        },
+                                        "validation_errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "Ciudad_Id_Ciudad": "El campo Ciudad_Id_Ciudad es obligatorio."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
