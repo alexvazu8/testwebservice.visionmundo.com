@@ -16,7 +16,7 @@ use App\Models\User;
 *             description="Reservas API"
 * )
 *
-* @OA\Server(url="http://testwebservice.visionmundo.com")
+* @OA\Server(url="${APP_URL_WEBSERVICE}")
 * @OA\SecurityScheme(
  *      securityScheme="bearerAuth",
  *      type="http",
