@@ -937,6 +937,8 @@ public function getDispoHotels(Request $request)
         h.Foto_Principal_Hotel,
         c.Id_Ciudad AS Id_Ciudad,
         c.Nombre_Ciudad,
+        z.Id_Zona,
+        z.Nombre_Zona,
         ? AS Fecha_desde,
         ? AS Fecha_hasta
     ', [$request['Fecha_desde'], $request['Fecha_hasta']]);
