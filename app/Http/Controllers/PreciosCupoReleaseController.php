@@ -711,7 +711,7 @@ public function getDispoHotels(Request $request)
           'Fecha_desde' => 'required|date',
           'Fecha_hasta' => 'required|date|after:Fecha_desde',
           'Id_Ciudad_Hotel'=> 'nullable|required_without:Id_Zona,Id_Pais|numeric|max:11',
-          'Id_Zona' => 'nullable|integer|exists:zonas,Id_Zona',
+          'Id_Zona' => 'nullable|integers|exists:zonas,Id_Zona',
           'Numero_Habitaciones' => 'required|numeric|max:3',
           'habitaciones.*.Cantidad_adultos' => 'required|numeric|max:9',
           'habitaciones.*.Cantidad_menores' => 'required|numeric|max:2',
