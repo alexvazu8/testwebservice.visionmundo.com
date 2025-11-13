@@ -710,7 +710,8 @@ public function getDispoHotels(Request $request)
       $rules = [
           'Fecha_desde' => 'required|date',
           'Fecha_hasta' => 'required|date|after:Fecha_desde',
-          'Id_Ciudad_Hotel'=> 'nullable|required_without:Id_Zona_Hotel,Id_Pais_Hotel|numeric|max:11',
+          'Id_Ciudad_Hotel'=> 'nullable|required_without:Id_Zona,Id_Pais|numeric|max:11',
+          'Id_Zona' => 'nullable|integer|exists:zonas,Id_Zona',
           'Numero_Habitaciones' => 'required|numeric|max:3',
           'habitaciones.*.Cantidad_adultos' => 'required|numeric|max:9',
           'habitaciones.*.Cantidad_menores' => 'required|numeric|max:2',
@@ -868,8 +869,12 @@ public function getDispoHotels(Request $request)
         $query = PreciosCupoRelease::join('tipo_habitacion_hotels AS thh', 'precios_cupo_releases.Tipo_habitacion_hotel_id_tipo_habitacion_hotel', '=', 'thh.id')
             ->join('hotels AS h', 'thh.Hotel_Id_Hotel', '=', 'h.Id_Hotel')
             ->join('ciudades AS c', 'h.ciudad_Id_ciudad', '=', 'c.Id_Ciudad')
+            ->join('zonas AS z', 'h.Zona_Id_Zona', '=', 'z.Id_Zona')
             ->join('tipo_habitacion_generals AS thg', 'thh.Tipo_Habitacion_general_Id_tipo_Habitacion_general', '=', 'thg.id')
             ->join('regimens AS r', 'precios_cupo_releases.regimen_id', '=', 'r.id')
+            ->when(!empty($request['Id_Zona']), function($query) use ($request) {
+              return $query->where('z.Id_Zona', '=', $request['Id_Zona']);
+            })
             ->where('c.Id_Ciudad', '=', $request['Id_Ciudad_Hotel'])
             ->where('Fecha_precio_cupo_release_noche', '>=', $request['Fecha_desde'])
             ->where('Fecha_precio_cupo_release_noche', '<', $request['Fecha_hasta'])
