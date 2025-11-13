@@ -1,0 +1,5 @@
+[12-Jan-2025 23:56:15 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 400560128 bytes) in /home3/visionmu/testwebservice.visionmundo.com/app/Http/Controllers/PreciosCupoReleaseController.php on line 918
+[13-Jan-2025 01:22:47 UTC] PHP Fatal error:  Cannot use Carbon\Carbon as Carbon because the name is already in use in /home3/visionmu/testwebservice.visionmundo.com/app/Http/Controllers/PreciosCupoReleaseController.php on line 11
+[17-Apr-2025 15:32:13 UTC] PHP Fatal error:  Cannot use [] for reading in /home3/visionmu/testwebservice.visionmundo.com/app/Http/Controllers/CarritoComprasItemController.php on line 494
+[20-Apr-2025 02:08:59 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 266342400 bytes) in /home3/visionmu/testwebservice.visionmundo.com/app/Http/Controllers/CarritoComprasItemController.php on line 945
+[20-Apr-2025 02:42:02 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 266342400 bytes) in /home3/visionmu/testwebservice.visionmundo.com/app/Http/Controllers/ReservaController.php on line 832
