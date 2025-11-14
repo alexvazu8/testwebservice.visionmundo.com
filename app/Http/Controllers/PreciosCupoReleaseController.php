@@ -870,6 +870,7 @@ public function getDispoHotels(Request $request)
             ->join('hotels AS h', 'thh.Hotel_Id_Hotel', '=', 'h.Id_Hotel')
             ->join('ciudades AS c', 'h.ciudad_Id_ciudad', '=', 'c.Id_Ciudad')
             ->join('zonas AS z', 'h.Zona_Id_Zona', '=', 'z.Id_Zona')
+            ->join('estrellas AS e', 'h.estrellas_id', '=', 'e.id')
             ->join('tipo_habitacion_generals AS thg', 'thh.Tipo_Habitacion_general_Id_tipo_Habitacion_general', '=', 'thg.id')
             ->join('regimens AS r', 'precios_cupo_releases.regimen_id', '=', 'r.id')
             ->when(!empty($request['Id_Zona']), function($query) use ($request) {
@@ -939,6 +940,8 @@ public function getDispoHotels(Request $request)
         c.Nombre_Ciudad,
         z.Id_Zona,
         z.Nombre_Zona,
+        e.estrellas,
+        e.tipo_categoria,
         ? AS Fecha_desde,
         ? AS Fecha_hasta
     ', [$request['Fecha_desde'], $request['Fecha_hasta']]);
