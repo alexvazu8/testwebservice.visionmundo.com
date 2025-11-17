@@ -1004,7 +1004,7 @@ public function getDispoHotels(Request $request)
             '.$Cantidad_menores.' AS Cantidad_Menores,
             thh.Edad_menores_gratis,
             COUNT(thh.id) AS Cantidad_Noches,
-            precios_cupo_releases.Moneda AS Moneda,
+            ANY_VALUE(precios_cupo_releases.Moneda) AS Moneda,
             (SUM(precios_cupo_releases.Costo_habitacion) * '.$mk.') / COUNT(thh.id) AS Precio_promedio_por_noche,
             (SUM(precios_cupo_releases.Costo_habitacion) * '.$mk.')  AS Total_Habitacion,
             '.$numeroHabitaciones.' AS Cantidad_habitaciones,
