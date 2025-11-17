@@ -321,7 +321,7 @@ class ToursContratoCupoController extends Controller
 
 
     $tourcontrato = ToursContratoCupo::join("tours", "tours.id", "=", "Tours_id")
-      ->selectRaw("Fecha_disponible,DATE_ADD(Fecha_disponible, INTERVAL cantidad_noches_tour DAY) AS Fecha_out,cantidad_dias_tour,cantidad_noches_tour,tours.id as Id_Tour,Nombre_tour,tours_contrato_cupos.id as Id_contrato_tours,Costo_adulto*$mk as Precio_adulto,Costo_menor*$mk as Precio_menor,((Costo_adulto*Cantidad_adultos)+(Costo_menor*Cantidad_menores))*$mk as Precio_Total,Cantidad_adultos,Cantidad_menores,tours.Foto_tours")
+      ->selectRaw("Fecha_disponible,DATE_ADD(Fecha_disponible, INTERVAL cantidad_noches_tour DAY) AS Fecha_out,cantidad_dias_tour,cantidad_noches_tour,tours.id as Id_Tour,Nombre_tour,tours_contrato_cupos.id as Id_contrato_tours,Moneda,Costo_adulto*$mk as Precio_adulto,Costo_menor*$mk as Precio_menor,((Costo_adulto*Cantidad_adultos)+(Costo_menor*Cantidad_menores))*$mk as Precio_Total,Cantidad_adultos,Cantidad_menores,tours.Foto_tours")
       ->where('Cantidad_adultos', $request['Cantidad_adultos'])
       ->where('Cantidad_menores', $request['Cantidad_menores'])
       ->where('Ciudad_Id_Ciudad', '=', $idc)
