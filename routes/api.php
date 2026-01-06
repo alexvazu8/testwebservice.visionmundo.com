@@ -53,7 +53,7 @@ Route::group([
     Route::delete('vaciarRegistroCarrito', 'App\Http\Controllers\CarritoComprasItemController@destroy_si_paso_el_tiempo');
     Route::post('vaciarCarritoVencido', 'App\Http\Controllers\CarritoComprasItemController@vaciaCarritoVencido');
     Route::get('detalleReservaPenalidad/{id}', 'App\Http\Controllers\DetalleReservaController@calcularPenalidad');
-    Route::get('cancelarDetalleReserva/{id}', 'App\Http\Controllers\DetalleReservaController@cancelar');
+    Route::delete('cancelarDetalleReserva/{id}', 'App\Http\Controllers\DetalleReservaController@cancelar');
     
     //Voucher
     Route::get('voucher', 'App\Http\Controllers\ReservaController@voucher');
