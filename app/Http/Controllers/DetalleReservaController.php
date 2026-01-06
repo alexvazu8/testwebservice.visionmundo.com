@@ -303,7 +303,7 @@ class DetalleReservaController extends Controller
     }
     
 /**
- * @OA\Get(
+ * @OA\Delete(
  *     path="/api/auth/cancelarDetalleReserva/{id_detalle_reserva}",
  *     summary="Cancelar un detalle de reserva",
  *     description="Cancela un detalle de reserva y calcula la penalidad correspondiente. Aplica según el tipo de servicio: Hotel, Transporte, Tour.",
