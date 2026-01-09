@@ -845,7 +845,8 @@ class ReservaController extends Controller
                                     }
                                 ]);
                             },
-                            'regimen'
+                            'regimen',
+                            'politica.penalidads'
                         ]);
                     },
                     'detalleTour' => function ($query) {
@@ -870,6 +871,13 @@ class ReservaController extends Controller
             $reserva->detalleReservas->each(function ($detalle) use ($photoDomain) {
                 if ($detalle->detalleTour && $detalle->detalleTour->tour) {
                     $detalle->detalleTour->tour->Foto_tours = $photoDomain . '/' . base64_decode($detalle->detalleTour->tour->Foto_tours);
+                }
+                // Agregar formato a las penalidades de hoteles
+                if ($detalle->detalleHotel && $detalle->detalleHotel->politica) {
+                    $detalle->detalleHotel->politica->penalidads = $detalle->detalleHotel->politica->penalidads->map(function ($penalidad) {
+                        $penalidad->porcentaje_penalidad_por_noche = ($penalidad->porcentaje_penalidad_por_noche * 100) . '%';
+                        return $penalidad;
+                    });
                 }
             });
         });
