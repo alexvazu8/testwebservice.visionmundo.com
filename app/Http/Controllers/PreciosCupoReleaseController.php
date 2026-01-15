@@ -989,11 +989,7 @@ public function getDispoHotels(Request $request)
             
             // Calcula la diferencia en días
             $noches = $fechaDesde->diffInDays($fechaHasta);
-            
-         
-            
-            
-      
+                  
             $query->selectRaw('
             thh.id AS Id_tipo_habitacion_hotels,
             thh.Nombre_Habitacion,
